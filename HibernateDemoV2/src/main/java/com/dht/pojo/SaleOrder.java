@@ -6,7 +6,9 @@ package com.dht.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,25 +18,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author admin
  */
 @Entity
-@Table(name = "comment")
+@Table(name = "sale_order")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
-    @NamedQuery(name = "Comment.findById", query = "SELECT c FROM Comment c WHERE c.id = :id"),
-    @NamedQuery(name = "Comment.findByContent", query = "SELECT c FROM Comment c WHERE c.content = :content"),
-    @NamedQuery(name = "Comment.findByCreatedDate", query = "SELECT c FROM Comment c WHERE c.createdDate = :createdDate"),
-    @NamedQuery(name = "Comment.findByUpdatedDate", query = "SELECT c FROM Comment c WHERE c.updatedDate = :updatedDate")})
-public class Comment implements Serializable {
+    @NamedQuery(name = "SaleOrder.findAll", query = "SELECT s FROM SaleOrder s"),
+    @NamedQuery(name = "SaleOrder.findById", query = "SELECT s FROM SaleOrder s WHERE s.id = :id"),
+    @NamedQuery(name = "SaleOrder.findByAmount", query = "SELECT s FROM SaleOrder s WHERE s.amount = :amount"),
+    @NamedQuery(name = "SaleOrder.findByCreatedDate", query = "SELECT s FROM SaleOrder s WHERE s.createdDate = :createdDate")})
+public class SaleOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,26 +45,28 @@ public class Comment implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "content")
-    private String content;
+    @Column(name = "amount")
+    private Long amount;
+    @Basic(optional = false)
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-    @Column(name = "updated_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedDate;
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Product productId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private User userId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
+    private Set<OrderDetail> orderDetailSet;
 
-    public Comment() {
+    public SaleOrder() {
     }
 
-    public Comment(Integer id) {
+    public SaleOrder(Integer id) {
         this.id = id;
+    }
+
+    public SaleOrder(Integer id, Date createdDate) {
+        this.id = id;
+        this.createdDate = createdDate;
     }
 
     public Integer getId() {
@@ -72,12 +77,12 @@ public class Comment implements Serializable {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public Long getAmount() {
+        return amount;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setAmount(Long amount) {
+        this.amount = amount;
     }
 
     public Date getCreatedDate() {
@@ -88,28 +93,21 @@ public class Comment implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    public Product getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Product productId) {
-        this.productId = productId;
-    }
-
     public User getUserId() {
         return userId;
     }
 
     public void setUserId(User userId) {
         this.userId = userId;
+    }
+
+    @XmlTransient
+    public Set<OrderDetail> getOrderDetailSet() {
+        return orderDetailSet;
+    }
+
+    public void setOrderDetailSet(Set<OrderDetail> orderDetailSet) {
+        this.orderDetailSet = orderDetailSet;
     }
 
     @Override
@@ -122,10 +120,10 @@ public class Comment implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Comment)) {
+        if (!(object instanceof SaleOrder)) {
             return false;
         }
-        Comment other = (Comment) object;
+        SaleOrder other = (SaleOrder) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -134,7 +132,7 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "com.dht.pojo.Comment[ id=" + id + " ]";
+        return "com.dht.pojo.SaleOrder[ id=" + id + " ]";
     }
     
 }

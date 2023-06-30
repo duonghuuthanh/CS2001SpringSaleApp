@@ -8,6 +8,8 @@
     <class>com.dht.pojo.User</class>
     <class>com.dht.pojo.ProdTag</class>
     <class>com.dht.pojo.Comment</class>
+    <class>com.dht.pojo.OrderDetail</class>
+    <class>com.dht.pojo.SaleOrder</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/saledb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

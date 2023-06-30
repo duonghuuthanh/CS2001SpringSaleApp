@@ -7,7 +7,6 @@ package com.dht.pojo;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,12 +29,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
-    @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
+    @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName"),
+    @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName"),
+    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+    @NamedQuery(name = "User.findByPhone", query = "SELECT u FROM User u WHERE u.phone = :phone"),
     @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-    @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar"),
-    @NamedQuery(name = "User.findByUserRole", query = "SELECT u FROM User u WHERE u.userRole = :userRole"),
-    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")})
+    @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active"),
+    @NamedQuery(name = "User.findByUserRole", query = "SELECT u FROM User u WHERE u.userRole = :userRole")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,24 +46,30 @@ public class User implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "name")
-    private String name;
+    @Column(name = "first_name")
+    private String firstName;
+    @Basic(optional = false)
+    @Column(name = "last_name")
+    private String lastName;
+    @Basic(optional = false)
+    @Column(name = "email")
+    private String email;
+    @Basic(optional = false)
+    @Column(name = "phone")
+    private String phone;
     @Basic(optional = false)
     @Column(name = "username")
     private String username;
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
-    @Column(name = "avatar")
-    private String avatar;
+    @Column(name = "active")
+    private Boolean active;
     @Basic(optional = false)
     @Column(name = "user_role")
     private String userRole;
-    @Basic(optional = false)
-    @Column(name = "email")
-    private String email;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Set<Comment> commentSet;
+    @OneToMany(mappedBy = "userId")
+    private Set<SaleOrder> saleOrderSet;
 
     public User() {
     }
@@ -71,13 +78,15 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String name, String username, String password, String userRole, String email) {
+    public User(Integer id, String firstName, String lastName, String email, String phone, String username, String password, String userRole) {
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
         this.username = username;
         this.password = password;
         this.userRole = userRole;
-        this.email = email;
     }
 
     public Integer getId() {
@@ -88,12 +97,36 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getUsername() {
@@ -112,12 +145,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getUserRole() {
@@ -128,21 +161,13 @@ public class User implements Serializable {
         this.userRole = userRole;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     @XmlTransient
-    public Set<Comment> getCommentSet() {
-        return commentSet;
+    public Set<SaleOrder> getSaleOrderSet() {
+        return saleOrderSet;
     }
 
-    public void setCommentSet(Set<Comment> commentSet) {
-        this.commentSet = commentSet;
+    public void setSaleOrderSet(Set<SaleOrder> saleOrderSet) {
+        this.saleOrderSet = saleOrderSet;
     }
 
     @Override
