@@ -24,3 +24,5 @@ hs_err_pid*
 replay_pid*
 /HibernateDemoV1/target/
 /HibernateDemoV2/target/
+/SaleAppV1/target/
+/SaleAppV2/target/
