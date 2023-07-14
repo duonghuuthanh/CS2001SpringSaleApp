@@ -4,15 +4,13 @@
  */
 package com.dht.repository;
 
-import com.dht.pojo.Product;
+import com.dht.pojo.Category;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
  * @author admin
  */
-public interface ProductRepository {
-    List<Product> getProducts(Map<String, String> params);
-    Long countProduct();
+public interface CategoryRepository {
+    List<Category> getCategories();
 }

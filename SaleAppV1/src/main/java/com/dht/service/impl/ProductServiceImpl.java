@@ -25,5 +25,10 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProducts(Map<String, String> params) {
         return this.productRepo.getProducts(params);
     }
+
+    @Override
+    public Long countProduct() {
+        return this.productRepo.countProduct();
+    }
     
 }
