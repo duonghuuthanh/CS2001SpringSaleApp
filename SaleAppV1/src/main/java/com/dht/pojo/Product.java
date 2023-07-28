@@ -55,11 +55,11 @@ public class Product implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @NotNull(message = "{product.name.notNull}")
+    @Size(min = 5, max = 50, message = "{product.name.lenErr}")
     @Column(name = "name")
     private String name;
-    @Size(max = 255)
+    @Size(min = 10, max = 255, message = "{product.desc.lenErr}")
     @Column(name = "description")
     private String description;
     @Column(name = "price")
@@ -202,10 +202,7 @@ public class Product implements Serializable {
             return false;
         }
         Product other = (Product) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override

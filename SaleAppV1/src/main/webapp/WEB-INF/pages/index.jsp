@@ -43,11 +43,14 @@
                     <td>${p.name}</td>
                     <td>${p.price}</td>
                     <td>
-                        <a href="#" class="btn btn-success">Cập nhật</a>
-                        <button class="btn btn-danger">Xóa</button>
+                        <c:url value="/api/products/${p.id}" var="apiDel" />
+                        <a href="<c:url value="/products/${p.id}" />" class="btn btn-success">Cập nhật</a>
+                        <button class="btn btn-danger" onclick="delPro('${apiDel}', ${p.id})">Xóa</button>
                     </td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
 </section>
+    
+    <script src="<c:url value="/js/main.js" />"></script>

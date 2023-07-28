@@ -16,4 +16,6 @@ public interface ProductService {
     List<Product> getProducts(Map<String, String> params);
     Long countProduct();
     boolean addOrUpdateProduct(Product p);
+    Product getProductById(int id);
+    boolean deleteProduct(int id);
 }

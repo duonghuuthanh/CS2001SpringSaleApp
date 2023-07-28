@@ -113,4 +113,23 @@ public class ProductRepositoryImpl implements ProductRepository {
             return false;
         }
     }
+
+    @Override
+    public Product getProductById(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        return session.get(Product.class, id);
+    }
+
+    @Override
+    public boolean deleteProduct(int id) {
+        Session session = this.factory.getObject().getCurrentSession();
+        Product p = this.getProductById(id);
+        try {
+            session.delete(p);
+            return true;
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
 }
