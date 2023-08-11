@@ -26,3 +26,4 @@ replay_pid*
 /HibernateDemoV2/target/
 /SaleAppV1/target/
 /SaleAppV2/target/
+node_modules

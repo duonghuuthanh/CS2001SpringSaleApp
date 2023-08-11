@@ -33,11 +33,6 @@
         <label for="price">Gía sản phẩm</label>
     </div>
     <div class="form-floating mb-3 mt-3">
-        <form:input type="file" class="form-control" 
-                    path="file" id="file"  />
-        <label for="file">Ảnh sản phẩm</label>
-    </div>
-    <div class="form-floating mb-3 mt-3">
         <form:select class="form-select" id="category" name="category" path="categoryId">
             <c:forEach items="${categories}" var="c">
                 <c:choose>
@@ -53,6 +48,14 @@
         </form:select>
 
         <label for="category" class="form-label">Danh mục sản phẩm:</label>
+    </div>
+    <div class="form-floating mb-3 mt-3">
+        <form:input type="file" class="form-control" 
+                    path="file" id="file"  />
+        <label for="file">Ảnh sản phẩm</label>
+        <c:if test="${product.image != null}">
+            <img src="${product.image}" width="120" />
+        </c:if>
     </div>
 
     <div class="form-floating mb-3 mt-3">
