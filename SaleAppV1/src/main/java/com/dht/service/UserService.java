@@ -4,6 +4,7 @@
  */
 package com.dht.service;
 
+import com.dht.pojo.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
@@ -11,5 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  * @author admin
  */
 public interface UserService extends UserDetailsService  {
-    
+    User getUserByUn(String username);
+    boolean authUser(String username, String password);
 }

@@ -12,4 +12,5 @@ import com.dht.pojo.User;
  */
 public interface UserReppository {
     User getUserByUsername(String username);
+    boolean authUser(String username, String password);
 }

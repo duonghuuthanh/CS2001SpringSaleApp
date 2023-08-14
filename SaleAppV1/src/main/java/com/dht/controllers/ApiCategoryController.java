@@ -26,7 +26,7 @@ public class ApiCategoryController {
     public CategoryService cateService;
     
     @GetMapping("/categories/")
-    @CrossOrigin//(origins = {"12..."})
+    @CrossOrigin
     public ResponseEntity<List<Category>> list() {
         return new ResponseEntity<>(this.cateService.getCategories(), HttpStatus.OK);
     }
