@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Row, Alert } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import Apis, { endpoints } from "../configs/Apis";
 import MySpinner from "../layout/MySpinner";
@@ -13,9 +13,14 @@ const Home = () => {
             try {
                 let e = endpoints['products'];
 
-                let kw = q.get("kw");
-                if (kw !== null)
-                     e = `${e}?kw=${kw}`;
+                let cateId = q.get("cateId");
+                if (cateId !== null)
+                    e = `${e}?cateId=${cateId}`;
+                else {
+                    let kw = q.get("kw");
+                    if (kw !== null)
+                         e = `${e}?kw=${kw}`;
+                }
 
                 let res = await Apis.get(e);
                 setProducts(res.data);
@@ -30,6 +35,9 @@ const Home = () => {
 
     if (products === null)
         return <MySpinner />
+
+    if (products.length === 0)
+        return <Alert variant="info" className="mt-5">Không có sản phẩm nào!</Alert>
 
     return (
         <>

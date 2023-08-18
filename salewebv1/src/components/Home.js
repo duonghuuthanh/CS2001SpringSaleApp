@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Button, Card, Col, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Row } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import Apis, { endpoints } from "../configs/Apis";
 import MySpinner from "../layout/MySpinner";
@@ -13,9 +13,14 @@ const Home = () => {
            try {
             let e = endpoints['products'];
 
-            let kw = q.get("kw");
-            if (kw !== null)
-                e = `${e}?kw=${kw}`;
+            let cateId = q.get("cateId");
+            if (cateId !== null)
+                e = `${e}?cateId=${cateId}`;
+            else {
+                let kw = q.get("kw");
+                if (kw !== null)
+                    e = `${e}?kw=${kw}`;
+            }
             
             let res = await Apis.get(e);
             setProducts(res.data);
@@ -31,6 +36,9 @@ const Home = () => {
     if (products === null) 
         return <MySpinner />
 
+    if (products.length === 0)
+        return <Alert variant="info" className="mt-1">Không có sản phẩm nào!</Alert>
+
     return (
         <>
         <h1 className="text-center text-info">DANH MỤC SẢN PHẨM</h1>
@@ -41,10 +49,10 @@ const Home = () => {
                                 <Card style={{ width: '18rem' }}>
                                     <Card.Img variant="top" src={p.image} />
                                     <Card.Body>
-                                    <Card.Title>{p.name}</Card.Title>
-                                    <Card.Text>{p.price} VNĐ</Card.Text>
-                                    <Button variant="primary">Xem chi tiết</Button>
-                                    <Button variant="success">Đặt hàng</Button>
+                                        <Card.Title>{p.name}</Card.Title>
+                                        <Card.Text>{p.price} VNĐ</Card.Text>
+                                        <Button className="mr-1" variant="primary">Xem chi tiết</Button>
+                                        <Button className="ml-1" variant="success">Đặt hàng</Button>
                                     </Card.Body>
                                 </Card>
                             </Col>

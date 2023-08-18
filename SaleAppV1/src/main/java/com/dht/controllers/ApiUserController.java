@@ -7,6 +7,7 @@ package com.dht.controllers;
 import com.dht.pojo.User;
 import com.dht.components.JwtService;
 import com.dht.service.UserService;
+import java.security.Principal;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,8 @@ public class ApiUserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/login")
+    @PostMapping("/login/")
+    @CrossOrigin
     public ResponseEntity<String> login(@RequestBody User user) {
         if (this.userService.authUser(user.getUsername(), user.getPassword()) == true) {
             String token = this.jwtService.generateTokenLogin(user.getUsername());
@@ -48,7 +50,7 @@ public class ApiUserController {
 
     @GetMapping("/test")
     @CrossOrigin(origins = {"127.0.0.1:5500"})
-    public ResponseEntity<String> test() {
+    public ResponseEntity<String> test(Principal pricipal) {
         return new ResponseEntity<>("SUCCESSFUL", HttpStatus.OK);
     }
     
@@ -59,5 +61,12 @@ public class ApiUserController {
     public ResponseEntity<User> addUser(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatar) {
         User user = this.userService.addUser(params, avatar);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+    
+    @GetMapping(path = "/current-user/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<User> details(Principal user) {
+        User u = this.userService.getUserByUn(user.getName());
+        return new ResponseEntity<>(u, HttpStatus.OK);
     }
 }

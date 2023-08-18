@@ -7,7 +7,6 @@ package com.dht.configs;
 import com.dht.filters.CustomAccessDeniedHandler;
 import com.dht.filters.JwtAuthenticationTokenFilter;
 import com.dht.filters.RestAuthenticationEntryPoint;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -87,7 +86,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Disable crsf cho đường dẫn /rest/**
         http.csrf().ignoringAntMatchers("/api/**");
-        http.authorizeRequests().antMatchers("/api/login**").permitAll();
+        http.authorizeRequests().antMatchers("/api/login/").permitAll();
         http.authorizeRequests().antMatchers("/api/products/").permitAll();
         http.authorizeRequests().antMatchers("/api/categories/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
