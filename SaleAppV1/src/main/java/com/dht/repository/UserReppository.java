@@ -5,6 +5,7 @@
 package com.dht.repository;
 
 import com.dht.pojo.User;
+import java.util.Map;
 
 /**
  *
@@ -13,4 +14,5 @@ import com.dht.pojo.User;
 public interface UserReppository {
     User getUserByUsername(String username);
     boolean authUser(String username, String password);
+    User addUser(User user);
 }
