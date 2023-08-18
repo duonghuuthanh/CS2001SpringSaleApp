@@ -6,7 +6,6 @@ package com.dht.repository.impl;
 
 import com.dht.pojo.User;
 import com.dht.repository.UserReppository;
-import java.util.Map;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,6 @@ public class UserReppositoryImpl implements UserReppository {
     @Override
     public boolean authUser(String username, String password) {
         User  u = this.getUserByUsername(username);
-       
         
         return this.passEncoder.matches(password, u.getPassword());
     }

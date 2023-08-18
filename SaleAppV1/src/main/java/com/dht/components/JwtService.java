@@ -35,6 +35,7 @@ public class JwtService {
             
             JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder();
             builder.claim("username", username);
+            
             builder.expirationTime(new Date(System.currentTimeMillis() + EXPIRE_TIME));
             
             JWTClaimsSet claimsSet = builder.build();
