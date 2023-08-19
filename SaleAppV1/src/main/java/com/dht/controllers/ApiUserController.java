@@ -48,13 +48,13 @@ public class ApiUserController {
         return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/test")
+    @GetMapping("/test/")
     @CrossOrigin(origins = {"127.0.0.1:5500"})
     public ResponseEntity<String> test(Principal pricipal) {
         return new ResponseEntity<>("SUCCESSFUL", HttpStatus.OK);
     }
     
-    @PostMapping(path = "/users", 
+    @PostMapping(path = "/users/", 
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, 
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @CrossOrigin
