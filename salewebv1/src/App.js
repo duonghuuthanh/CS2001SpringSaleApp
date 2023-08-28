@@ -11,13 +11,22 @@ import cookie from "react-cookies";
 import Register from "./components/Register";
 import MyCartCounterReducer from "./reducers/MyCartCounterReducer";
 import Cart from "./components/Cart";
+import ProductDetails from "./components/ProductDetails";
+import 'moment/locale/vi';
 
 export const MyUserContext = createContext();
 export const MyCartContext = createContext();
 
+const countCart = () => {
+  let cart = cookie.load("cart") || null;
+  if (cart !== null)
+    return Object.values(cart).reduce((init, current) => init + current["quantity"], 0);
+  return 0;
+}
+
 const App = () => {
   const [user, dispatch] = useReducer(MyUserReducer, cookie.load("user") || null);
-  const [cartCounter, cartDispatch] = useReducer(MyCartCounterReducer, 0);
+  const [cartCounter, cartDispatch] = useReducer(MyCartCounterReducer, countCart());
 
   return (
     <MyUserContext.Provider value={[user, dispatch]}>
@@ -30,6 +39,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/products/:productId" element={<ProductDetails />} />
           </Routes>
         </Container>
         <Footer />

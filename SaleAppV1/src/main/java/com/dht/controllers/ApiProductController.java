@@ -55,6 +55,12 @@ public class ApiProductController {
         return new ResponseEntity<>(this.prodService.getProducts(params), HttpStatus.OK);
     }
     
+    @RequestMapping(path = "/products/{productId}/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<Product> details(@PathVariable(value = "productId") int id) {
+        return new ResponseEntity<>(this.prodService.getProductById(id), HttpStatus.OK);
+    }
+    
     @PostMapping(path = "/products", consumes = {
         MediaType.MULTIPART_FORM_DATA_VALUE,
         MediaType.APPLICATION_JSON_VALUE
@@ -72,11 +78,13 @@ public class ApiProductController {
     }
     
     @GetMapping("/products/{productId}/comments/")
+    @CrossOrigin
     public ResponseEntity<List<Comment>> listComments(@PathVariable(value = "productId") int id) {
         return new ResponseEntity<>(this.commentService.getComments(id), HttpStatus.OK);
     }
     
     @PostMapping(path="/comments/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
     public ResponseEntity<Comment> addComment(@RequestBody Comment comment) {
         Comment c = this.commentService.addComment(comment);
         

@@ -5,6 +5,7 @@
 package com.dht.service.impl;
 
 import com.dht.pojo.Cart;
+import com.dht.repository.ReceiptRepository;
 import com.dht.service.ReceiptService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReceiptServiceImpl implements ReceiptService {
     @Autowired
-    private ReceiptService receiptService;
+    private ReceiptRepository receiptRepo;
 
     @Override
     public boolean addReceipt(Map<String, Cart> carts) {
-        return this.receiptService.addReceipt(carts);
+        return this.receiptRepo.addReceipt(carts);
     }
     
 }

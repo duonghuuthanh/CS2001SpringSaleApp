@@ -6,6 +6,7 @@ package com.dht.pojo;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,7 +47,7 @@ public class OrderDetail implements Serializable {
     @ManyToOne(optional = false)
     private Product productId;
     @JoinColumn(name = "order_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private SaleOrder orderId;
 
     public OrderDetail() {

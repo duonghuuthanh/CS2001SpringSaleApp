@@ -9,7 +9,11 @@ export const endpoints = {
     "products": `${SERVER_CONTEXT}/api/products/`,
     "login": `${SERVER_CONTEXT}/api/login/`,
     "current-user": `${SERVER_CONTEXT}/api/current-user/`,
-    "register": `${SERVER_CONTEXT}/api/users/`
+    "register": `${SERVER_CONTEXT}/api/users/`,
+    "pay": `${SERVER_CONTEXT}/api/pay/`,
+    "details": (productId) => `${SERVER_CONTEXT}/api/products/${productId}/`,
+    "comments": (productId) => `${SERVER_CONTEXT}/api/products/${productId}/comments/`,
+    "add-comment": `${SERVER_CONTEXT}/api/comments/`,
 }
 
 export const authApi = () => {

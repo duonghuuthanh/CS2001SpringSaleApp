@@ -41,19 +41,6 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean addReceipt(Map<String, Cart> carts) {
 
-//        [{
-//    "1": {
-//        "id": 1,
-//        "unitPrice": 100,
-//        "quantity": 10
-//    }
-//}, {
-//    "2": {
-//        "id": 2,
-//        "unitPrice": 100,
-//        "quantity": 10
-//    }
-//}]
         Session s = this.factory.getObject().getCurrentSession();
         SaleOrder order = new SaleOrder();
 

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import cookie from "react-cookies";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { MyUserContext } from "../App";
 import Apis, { authApi, endpoints } from "../configs/Apis";
 
@@ -9,6 +9,7 @@ const Login = () => {
     const [user, dispatch] = useContext(MyUserContext);
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
+    const [q] = useSearchParams();
     
     const login = (evt) => {
         evt.preventDefault();
@@ -36,8 +37,10 @@ const Login = () => {
         process();
     }
 
-    if (user !== null)
-        return <Navigate to="/" />
+    if (user !== null) {
+        let next = q.get("next") || "/";
+        return <Navigate to={next} />
+    }
 
     return <>
         <h1 className="text-center text-info">ĐĂNG NHẬP NGƯỜI DÙNG</h1>
