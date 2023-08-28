@@ -41,7 +41,6 @@ public class IndexController {
     public String index(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("products", this.productService.getProducts(params));
         
-        
         int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
         long count = this.productService.countProduct();
         model.addAttribute("counter", Math.ceil(count*1.0/pageSize));
