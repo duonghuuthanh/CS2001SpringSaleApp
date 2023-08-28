@@ -6,6 +6,7 @@ package com.dht.controllers;
 
 import com.dht.pojo.Product;
 import com.dht.service.ProductService;
+import java.security.Principal;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ public class ProductController {
     private ProductService proService;
     
     @GetMapping("/products")
-    public String list(Model model) {
+    public String list(Model model, Principal p) {
         model.addAttribute("product", new Product());
         return "products";
     }

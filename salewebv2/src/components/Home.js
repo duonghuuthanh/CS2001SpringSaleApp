@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Card, Col, Row, Alert } from "react-bootstrap";
+import cookie from "react-cookies";
 import { useSearchParams } from "react-router-dom";
+import { MyCartContext } from "../App";
 import Apis, { endpoints } from "../configs/Apis";
 import MySpinner from "../layout/MySpinner";
 
 const Home = () => {
+    const [cartCounter, cartDispatch] = useContext(MyCartContext);
     const [products, setProducts] = useState(null);
     const [q] = useSearchParams();
 
@@ -31,7 +34,34 @@ const Home = () => {
 
         loadProducts();
 
-    }, [q])
+    }, [q]);
+
+    const order = (product) => {
+        cartDispatch({
+            "type": "inc",
+            "payload": 1
+        });
+
+        let cart = cookie.load("cart") || null;
+        if (cart === null)
+            cart = {}
+        
+        if (product.id in cart) {
+            // có trong giỏ
+            cart[product.id]['quantity'] += 1;
+        } else {
+            // không có trong giỏ
+            cart[product.id] = {
+                "id": product.id,
+                "name": product.name,
+                "quantity": 1,
+                "unitPrice": product.price
+            }
+        }
+
+        cookie.save("cart", cart);
+        console.info(cart);
+    }
 
     if (products === null)
         return <MySpinner />
@@ -50,8 +80,8 @@ const Home = () => {
                                     <Card.Body>
                                         <Card.Title>{p.name}</Card.Title>
                                         <Card.Text>{p.price} VNĐ</Card.Text>
-                                        <Button variant="primary">Xem chi tiết</Button>
-                                        <Button variant="danger">Đặt hàng</Button>
+                                        <Button style={{marginRight: "5px"}} variant="primary">Xem chi tiết</Button>
+                                        <Button variant="danger" onClick={() => order(p)}>Đặt hàng</Button>
                                     </Card.Body>
                                 </Card>
                             </Col>

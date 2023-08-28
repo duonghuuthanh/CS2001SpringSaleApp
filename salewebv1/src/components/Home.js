@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Alert, Button, Card, Col, Row } from "react-bootstrap";
+import cookie from "react-cookies";
 import { useSearchParams } from "react-router-dom";
+import { MyCartContext } from "../App";
 import Apis, { endpoints } from "../configs/Apis";
 import MySpinner from "../layout/MySpinner";
 
 const Home = () => {
+    const [, cartDispatch] = useContext(MyCartContext);
     const [products, setProducts] = useState(null);
     const [q] = useSearchParams();
 
@@ -32,6 +35,33 @@ const Home = () => {
         loadProducts();
     }, [q]); 
 
+    const order = (product) => {
+        cartDispatch({
+            "type": "inc",
+            "payload": 1
+        });
+        
+        // lưu vào cookies
+        let cart = cookie.load("cart") || null;
+        if (cart == null)
+            cart = {};
+        
+        if (product.id in cart) { // sản phẩm có trong giỏ
+            cart[product.id]["quantity"] += 1;
+        } else { // sản phẩm chưa có trong giỏ
+            cart[product.id] = {
+                "id": product.id,
+                "name": product.name,
+                "quantity": 1,
+                "unitPrice": product.price
+            }
+        }
+
+        cookie.save("cart", cart);
+
+        console.info(cart);
+    }
+
 
     if (products === null) 
         return <MySpinner />
@@ -45,14 +75,14 @@ const Home = () => {
         <Row>
             
                 {products.map(p => {
-                    return <Col xs={12} md={3} className="mt-1">
+                    return <Col xs={12} md={3} className="mt-2 mb-2">
                                 <Card style={{ width: '18rem' }}>
-                                    <Card.Img variant="top" src={p.image} />
+                                    <Card.Img variant="top" src={p.image} fluid rounded  />
                                     <Card.Body>
                                         <Card.Title>{p.name}</Card.Title>
                                         <Card.Text>{p.price} VNĐ</Card.Text>
-                                        <Button className="mr-1" variant="primary">Xem chi tiết</Button>
-                                        <Button className="ml-1" variant="success">Đặt hàng</Button>
+                                        <Button style={{marginRight: "5px"}} variant="primary">Xem chi tiết</Button>
+                                        <Button variant="success" onClick={() => order(p)}>Đặt hàng</Button>
                                     </Card.Body>
                                 </Card>
                             </Col>
